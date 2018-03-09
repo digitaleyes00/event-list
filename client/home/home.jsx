@@ -11,7 +11,14 @@ const Home = createClass({
 		return <div className='home'>
 			<div className='fancybar'/>
 			<h1>Event Thingie 9000</h1>
-			<EventList />
+			<div className='container'>
+				<section>
+					<EventList />
+				</section>
+				<section>
+					Details here.
+				</section>
+			</div>
 		</div>;
 	}
 });

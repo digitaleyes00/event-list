@@ -1,5 +1,6 @@
 @import "shared/colors.less";
 @import "shared/base.less";
+@import "./event/event.less";
 
 .home {
 	.fancybar {
@@ -9,5 +10,16 @@
 		height     : 3px;
 		width      : 100%;
 		background : @thalmicBlue;
+	}
+}
+
+.container {
+	display: flex;
+	background: @thalmicBlue;
+	padding: 2rem;
+	section {
+		flex: 1;
+		background: @silver;
+		&:first-child { flex: 2 }
 	}
 }
