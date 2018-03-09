@@ -1,0 +1,75 @@
+{
+  "name": "web-takehome-skeleton",
+  "version": "2.1.0",
+  "description": "Front-End Take-Home Challenge",
+  "main": "app.js",
+  "scripts": {
+    "addevents": "node scripts/addTestEvents.js",
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js",
+    "prod": "set NODE_ENV=production&& npm run build",
+    "postinstall": "npm run build",
+    "lint": "eslint --fix **/*.{js,jsx}",
+    "start": "node app.js"
+  },
+  "vitreum": {
+    "assets": [
+      "*.svg",
+      "*.png",
+      "*.jpg",
+      "*.otf",
+      "*.woff",
+      "*.ico",
+      "*.ttf"
+    ],
+    "bundled": [
+      "react",
+      "react-dom",
+      "create-react-class",
+      "lodash/core",
+      "classnames",
+      "superagent"
+    ],
+    "shared": [
+      "./client"
+    ]
+  },
+  "eslintIgnore": [
+    "build"
+  ],
+  "babel": {
+    "only": [
+      "*.js",
+      "*.jsx"
+    ],
+    "presets": [
+      "stage-3",
+      "react"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thalmic/web-takehome-skeleton.git"
+  },
+  "author": "Thalmic Labs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thalmic/web-takehome-skeleton/issues"
+  },
+  "homepage": "https://github.com/thalmic/web-takehome-skeleton#readme",
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "classnames": "^2.2.5",
+    "create-react-class": "^15.6.3",
+    "eslint": "^4.18.2",
+    "eslint-plugin-react": "^7.7.0",
+    "express": "^4.16.2",
+    "lodash": "^4.17.5",
+    "nconf": "^0.9.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "superagent": "^3.8.2",
+    "vitreum": "^4.10.1"
+  }
+}
