@@ -1,6 +1,8 @@
 const React       = require('react');
 const createClass = require('create-react-class');
 const request     = require('superagent');
+const _           = require('lodash');
+
 /* Event Schema
 {
 	"type": "[string] The event type",
@@ -14,7 +16,10 @@ const request     = require('superagent');
 
 const EventListItem = createClass({
 	getDefaultProps() {
-		return { event: {} };
+		return {
+			event: {},
+			isActive: false
+		};
 	},
 
   // getInitialState() {
@@ -30,18 +35,45 @@ const EventListItem = createClass({
       });
   },
 
-  showDetails() {
-    console.log('clicked!');
-  },
-
   componentDidMount() {
     console.log('yupokj');
   },
 
+	renderIcon() {
+    switch(this.props.event.type) {
+      case 'movie':
+       return <i className='fa fa-film' />;
+			case 'birthday':
+        return <i className='fa fa-birthday-cake' />;
+			case 'music':
+        return <i className='fa fa-music' />;
+			case 'wedding':
+        return <i className='fa fa-heart' />;
+      default:
+       return;
+    }
+  },
+
+	renderEventType() {
+		if(_.isEmpty(this.props.event)) return;
+
+		return <p>{this.renderIcon()} {this.props.event.type}</p>;
+	},
+
 	render() {
-		return <li className='event-list--item' onClick={ this.showDetails }>
-			<h1>{this.props.event.title}</h1>
-      <button onClick={this.delete.bind(null, this.props.id)}> Delete <i className='fa fa-close fa-spin' /> </button>
+		let itemClasses = (this.props.selectedEventId === this.props.event.id) ? 'event-list--item active' : 'event-list--item';
+
+		return <li className={ itemClasses } onClick={ this.props.setSelectedEvent.bind(null, this.props.event) }>
+			<div className='event-list--item__inner'>
+				<div className='event-list--item__icon'>
+					<img src='https://loremflickr.com/100/100' />
+				</div>
+				<div className='event-list--item__title'>
+					<h1 className='truncate'>{this.props.event.title}</h1>
+					{ this.renderEventType() }
+				</div>
+	      <button className='event-list--item__delete delete' onClick={this.delete.bind(null, this.props.id)}> <i className='fa fa-close' /> </button>
+			</div>
 		</li>;
 	}
 });

@@ -1,6 +1,5 @@
 const React       = require('react');
 const createClass = require('create-react-class');
-const request     = require('superagent');
 
 /* Event Schema
 {
@@ -16,34 +15,21 @@ const EventListItem = require('./eventListItem.jsx');
 
 const EventList = createClass({
 	getDefaultProps() {
-		return {};
+		return {
+			events: []
+		};
 	},
 
-  getInitialState() {
-    return {
-      events: []
-    };
-  },
-
-  getEvents() {
-    request.get('https://forgetful-elephant.herokuapp.com/events')
-    	.end((err, res) => {
-        console.log(res)
-        this.setState({
-          events: res.body
-        });
-      });
-  },
-
-  componentDidMount() {
-    console.log*('yup');
-    this.getEvents();
-  },
-
 	render() {
-    const events = this.state.events.map(event => {
+    const events = this.props.events.map(event => {
       console.log(`eeeevent -- ${JSON.stringify(event)}`);
-      return <EventListItem key={event.title} event={event} getEvents={this.getEvents} />;
+      return <EventListItem
+							 key={event.id}
+							 event={event}
+							 getEvents={this.getEvents}
+							 setSelectedEvent={this.props.setSelectedEvent}
+							 selectedEventId={this.props.selectedEventId}
+						 />;
     });
 
 		return <ul className='event-list'>
