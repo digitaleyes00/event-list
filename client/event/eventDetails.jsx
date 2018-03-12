@@ -18,25 +18,15 @@ const EventDetails = createClass({
 		return { selectedEvent: {} };
 	},
 
-  componentDidMount() {
-    console.log(this.props.selectedEvent);
-  },
-
-  renderIcon() {
-    if(_.isEmpty(this.props.selectedEvent)) return;
-    switch(this.props.selectedEvent.type) {
-      case 'movie':
-       return <i className='fa fa-film' />;
-      default:
-       return;
-    }
-  },
+	componentDidMount() {
+		console.log(this.props.selectedEvent);
+	},
 
 	render() {
 		return <div className='event-details'>
-      { this.renderIcon() }
-      <p>{this.props.selectedEvent.title}</p>
-    </div>;
+			{ this.props.renderIcon(this.props.selectedEvent.type) }
+			<h1>{this.props.selectedEvent.title}</h1>
+		</div>;
 	}
 });
 

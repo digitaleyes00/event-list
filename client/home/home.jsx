@@ -1,27 +1,26 @@
-const React       = require('react');
-const createClass = require('create-react-class');
-const _           = require('lodash');
-const request     = require('superagent');
+const React       	= require('react');
+const createClass 	= require('create-react-class');
+const _           	= require('lodash');
+const request     	= require('superagent');
 
-const EventList = require('../event/eventList.jsx');
-const EventDetails = require('../event/eventDetails.jsx');
+const EventList 		= require('../event/eventList.jsx');
+const EventDetails 	= require('../event/eventDetails.jsx');
+const EventFilters 	= require('../event/eventFilters.jsx');
 
 const Home = createClass({
-	LOADING_DURATION: 1000,
-
 	getDefaultProps() {
 		return {};
 	},
 
 	getInitialState() {
 		return {
-			events: [],
-			loaded: false,
-			selectedEvent: {},
-			filters: {
-				eventType: ''
+			events        : [],
+			loaded        : false,
+			selectedEvent : {},
+			filters       : {
+				eventTypes : []
 			}
-		}
+		};
 	},
 
 	setSelectedEvent(selectedEvent) {
@@ -29,46 +28,90 @@ const Home = createClass({
 	},
 
 	filteredEvents() {
-		if(_.isEmpty(this.state.filters['eventType'])) return this.state.events;
-		console.log(_.filter(this.state.events, ['type', 'movie']));
-		return _.filter(this.state.events, ['type', this.state.filters.eventType]);
-	},
+		if(_.isEmpty(this.state.filters['eventTypes'])) return this.state.events;
 
-	filterEventType(eventType) {
-		this.setState({
-			filters: { eventType }
+		return this.state.events.filter((event) => {
+			return this.state.filters.eventTypes.includes(event.type);
 		});
 	},
 
+	filterEventType(eventType) {
+		let eventTypes = [...this.state.filters.eventTypes, eventType];
+		if(this.state.filters.eventTypes.includes(eventType)) {
+			eventTypes = this.state.filters.eventTypes.filter((type) => {
+				return type !== eventType;
+			});
+		}
+
+		this.setState({
+			filters : { eventTypes }
+		});
+	},
+
+	clearFilters() {
+		this.setState({
+			filters : { eventTypes: [] }
+		});
+	},
+
+	renderIcon(type) {
+		const icons = {
+	    'movie' : function () {
+	      return <i className='fa fa-film' />;
+	    },
+			'birthday' : function () {
+	      return <i className='fa fa-birthday-cake' />;
+	    },
+			'music' : function () {
+	      return <i className='fa fa-music' />;
+	    },
+			'wedding' : function () {
+	      return <i className='fa fa-heart' />;
+	    },
+	    'default' : function () {
+	      return 'Click an item to view details.';
+	    }
+  	};
+  	return (icons[type] || icons['default'])();
+	},
+
 	getEvents() {
-    request.get('https://forgetful-elephant.herokuapp.com/events')
+		request.get('https://forgetful-elephant.herokuapp.com/events')
     	.end((err, res) => {
-        setTimeout(() => {
-					this.setState({
-						events: res.body,
-						loaded: true
-					});
-				}, this.LOADING_DURATION)
-      });
-  },
+				console.log(err);
+				this.setState({
+					events : res.body,
+					loaded : true
+				});
+			});
+	},
 
 	componentDidMount() {
 		this.getEvents();
 	},
 
+	renderClearButton() {
+		if(_.isEmpty(this.state.filters.eventTypes)) {
+			return;
+		}
+
+		return <button className='clear' onClick={this.clearFilters}> Clear filters </button>;
+	},
+
 	renderFilters() {
-		let filters = _.uniqBy(this.state.events, 'type').map(ev => {
-										return <button onClick={this.filterEventType.bind(null, ev.type)}>{ev.type}</button>
-									});
-		return <div className='filters'>
-					   {filters}
-		       </div>;
+		if(_.isEmpty(this.state.events)) return;
+
+		return <EventFilters
+			events={this.state.events}
+			filters={this.state.filters}
+			filterEventType={this.filterEventType}
+			clearFilters={this.clearFilters} />;
 	},
 
 	renderMain() {
 		if(!this.state.loaded) {
 			return <div className='main-container centered'>
-				<h1> Fake Loading... </h1>
+				<h1> Loading... </h1>
 				<i className='fa fa-circle-o-notch fa-spin' />
 			</div>;
 		}
@@ -81,10 +124,17 @@ const Home = createClass({
 
 		return <div className='flex-container main-container'>
 			<section>
-				<EventList events={this.filteredEvents()} setSelectedEvent={this.setSelectedEvent} selectedEventId={_.isEmpty(this.state.selectedEvent) ? null : this.state.selectedEvent.id} />
+				<EventList
+					events={this.filteredEvents()}
+					getEvents={this.getEvents}
+					renderIcon={this.renderIcon}
+					setSelectedEvent={this.setSelectedEvent}
+					selectedEventId={_.isEmpty(this.state.selectedEvent) ? null : this.state.selectedEvent.id} />
 			</section>
 			<aside>
-				<EventDetails selectedEvent={this.state.selectedEvent} />
+				<EventDetails
+					selectedEvent={this.state.selectedEvent}
+					renderIcon={this.renderIcon} />
 			</aside>
 		</div>;
 	},

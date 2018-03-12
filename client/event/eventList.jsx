@@ -16,24 +16,24 @@ const EventListItem = require('./eventListItem.jsx');
 const EventList = createClass({
 	getDefaultProps() {
 		return {
-			events: []
+			events : []
 		};
 	},
 
 	render() {
-    const events = this.props.events.map(event => {
-      console.log(`eeeevent -- ${JSON.stringify(event)}`);
-      return <EventListItem
-							 key={event.id}
-							 event={event}
-							 getEvents={this.getEvents}
-							 setSelectedEvent={this.props.setSelectedEvent}
-							 selectedEventId={this.props.selectedEventId}
-						 />;
-    });
+		const events = this.props.events.map((event) => {
+			console.log(`eeeevent -- ${JSON.stringify(event)}`);
+			return <EventListItem
+				key={event.id}
+				event={event}
+				getEvents={this.props.getEvents}
+				renderIcon={this.props.renderIcon}
+				setSelectedEvent={this.props.setSelectedEvent}
+				selectedEventId={this.props.selectedEventId} />;
+		});
 
 		return <ul className='event-list'>
-      { events }
+			{ events }
 		</ul>;
 	}
 });

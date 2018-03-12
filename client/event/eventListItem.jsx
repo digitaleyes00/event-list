@@ -17,53 +17,39 @@ const _           = require('lodash');
 const EventListItem = createClass({
 	getDefaultProps() {
 		return {
-			event: {},
-			isActive: false
+			event    : {},
+			isActive : false
 		};
 	},
 
-  // getInitialState() {
-  //   return {
-  //     events: []
-  //   };
-  // },
+	// getInitialState() {
+	//   return {
+	//     events: []
+	//   };
+	// },
 
-  delete() {
-    request.delete(`https://forgetful-elephant.herokuapp.com/events/${this.props.event.id}`)
+	delete() {
+		request.delete(`https://forgetful-elephant.herokuapp.com/events/${this.props.event.id}`)
     	.end((err, res) => {
-        console.log(res); this.props.getEvents();
-      });
-  },
+				console.log(res);
+				this.props.getEvents();
+			});
+	},
 
-  componentDidMount() {
-    console.log('yupokj');
-  },
-
-	renderIcon() {
-    switch(this.props.event.type) {
-      case 'movie':
-       return <i className='fa fa-film' />;
-			case 'birthday':
-        return <i className='fa fa-birthday-cake' />;
-			case 'music':
-        return <i className='fa fa-music' />;
-			case 'wedding':
-        return <i className='fa fa-heart' />;
-      default:
-       return;
-    }
-  },
+	componentDidMount() {
+		console.log('yupokj');
+	},
 
 	renderEventType() {
 		if(_.isEmpty(this.props.event)) return;
 
-		return <p>{this.renderIcon()} {this.props.event.type}</p>;
+		return <p>{this.props.renderIcon(this.props.event.type)} {this.props.event.type}</p>;
 	},
 
 	render() {
-		let itemClasses = (this.props.selectedEventId === this.props.event.id) ? 'event-list--item active' : 'event-list--item';
+		const itemClasses = (this.props.selectedEventId === this.props.event.id) ? 'event-list--item active' : 'event-list--item';
 
-		return <li className={ itemClasses } onClick={ this.props.setSelectedEvent.bind(null, this.props.event) }>
+		return <li className={ itemClasses } onClick={() => this.props.setSelectedEvent(this.props.event) }>
 			<div className='event-list--item__inner'>
 				<div className='event-list--item__icon'>
 					<img src='https://loremflickr.com/100/100' />
@@ -72,7 +58,7 @@ const EventListItem = createClass({
 					<h1 className='truncate'>{this.props.event.title}</h1>
 					{ this.renderEventType() }
 				</div>
-	      <button className='event-list--item__delete delete' onClick={this.delete.bind(null, this.props.id)}> <i className='fa fa-close' /> </button>
+	      <button className='event-list--item__delete delete' onClick={() => this.delete(this.props.id)}> <i className='fa fa-close' /> </button>
 			</div>
 		</li>;
 	}
