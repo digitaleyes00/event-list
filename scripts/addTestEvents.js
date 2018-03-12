@@ -13,58 +13,60 @@ const request = require('superagent');
 
 const sampleEvents = [
 	{
-		// Add sample event(s) here...
-		'type'      : 'music',
+		'type'      : 'concert',
 		'serviceId' : 'concertz',
-		'icon'      : '[string] The URL to a small icon for this event',
+		'icon'      : 'https://loremflickr.com/200/200',
 		'timestamp' : '1520627760',
-		'title'     : 'Awesome concert',
-		'data'      : 'ok'
+		'title'     : 'The Beatles',
+		'data'      : '{}'
 	},
 	{
-		// Add sample event(s) here...
-		'type'      : 'music',
+		'type'      : 'concert',
 		'serviceId' : 'concertz',
-		'icon'      : '[string] The URL to a small icon for this event',
+		'icon'      : 'https://loremflickr.com/200/200',
 		'timestamp' : '1520617760',
-		'title'     : 'Awesome concert 2',
-		'data'      : 'ok'
+		'title'     : 'Queens of the Stone Age',
+		'data'      : '{}'
 	},
 	{
-		// Add sample event(s) here...
 		'type'      : 'movie',
 		'serviceId' : 'MoovieGuy',
-		'icon'      : '[string] The URL to a small icon for this event',
+		'icon'      : 'https://loremflickr.com/200/200',
 		'timestamp' : '1520645760',
-		'title'     : 'Cool Movie',
-		'data'      : 'ok'
+		'title'     : 'Indiana Jones and the Raiders of the Lost Ark',
+		'data'      : '{}'
 	},
 	{
-		// Add sample event(s) here...
-		'type'      : 'movie',
-		'serviceId' : 'MoovieGuy',
-		'icon'      : '[string] The URL to a small icon for this event',
-		'timestamp' : '1520647760',
-		'title'     : 'Good Movie',
-		'data'      : 'ok'
-	},
-	{
-		// Add sample event(s) here...
 		'type'      : 'birthday',
 		'serviceId' : 'steve',
-		'icon'      : '[string] The URL to a small icon for this event',
+		'icon'      : 'https://loremflickr.com/200/200',
 		'timestamp' : '1520622760',
 		'title'     : 'Steve\'s Birthday',
-		'data'      : 'ok'
+		'data'      : '{}'
 	},
 	{
-		// Add sample event(s) here...
 		'type'      : 'wedding',
 		'serviceId' : 'steve',
-		'icon'      : '[string] The URL to a small icon for this event',
+		'icon'      : 'https://loremflickr.com/200/200',
 		'timestamp' : '1520612454',
 		'title'     : 'Steve\'s Wedding',
-		'data'      : 'ok'
+		'data'      : '{}'
+	},
+	{
+		'type'      : 'sports',
+		'serviceId' : 'steve',
+		'icon'      : 'https://loremflickr.com/200/200',
+		'timestamp' : '1520612454',
+		'title'     : 'The Big Game',
+		'data'      : '{}'
+	},
+	{
+		'type'      : 'movie',
+		'serviceId' : 'MoovieGuy',
+		'icon'      : 'https://loremflickr.com/200/200',
+		'timestamp' : '1520647760',
+		'title'     : 'Hackers',
+		'data'      : '{}'
 	}
 ];
 

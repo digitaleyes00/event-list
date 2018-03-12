@@ -37,6 +37,7 @@ const Home = createClass({
 
 	filterEventType(eventType) {
 		let eventTypes = [...this.state.filters.eventTypes, eventType];
+
 		if(this.state.filters.eventTypes.includes(eventType)) {
 			eventTypes = this.state.filters.eventTypes.filter((type) => {
 				return type !== eventType;
@@ -62,23 +63,26 @@ const Home = createClass({
 			'birthday' : function () {
 	      return <i className='fa fa-birthday-cake' />;
 	    },
-			'music' : function () {
+			'concert' : function () {
 	      return <i className='fa fa-music' />;
 	    },
 			'wedding' : function () {
 	      return <i className='fa fa-heart' />;
 	    },
+			'sports' : function () {
+	      return <i className='fa fa-futbol-o' />;
+	    },
 	    'default' : function () {
-	      return 'Click an item to view details.';
+	      return;
 	    }
   	};
+
   	return (icons[type] || icons['default'])();
 	},
 
 	getEvents() {
 		request.get('https://forgetful-elephant.herokuapp.com/events')
     	.end((err, res) => {
-				console.log(err);
 				this.setState({
 					events : res.body,
 					loaded : true
@@ -90,14 +94,6 @@ const Home = createClass({
 		this.getEvents();
 	},
 
-	renderClearButton() {
-		if(_.isEmpty(this.state.filters.eventTypes)) {
-			return;
-		}
-
-		return <button className='clear' onClick={this.clearFilters}> Clear filters </button>;
-	},
-
 	renderFilters() {
 		if(_.isEmpty(this.state.events)) return;
 
@@ -105,7 +101,8 @@ const Home = createClass({
 			events={this.state.events}
 			filters={this.state.filters}
 			filterEventType={this.filterEventType}
-			clearFilters={this.clearFilters} />;
+			clearFilters={this.clearFilters}
+			renderIcon={this.renderIcon} />;
 	},
 
 	renderMain() {
@@ -142,8 +139,8 @@ const Home = createClass({
 	render() {
 		return <div className='home'>
 			<div className='fancybar'/>
-			<h1>Event Thingie 9000</h1>
 			<div className='container'>
+				<h1 className='app-title'>Event Thingie 9000</h1>
 				<nav>
 					{this.renderFilters()}
 				</nav>

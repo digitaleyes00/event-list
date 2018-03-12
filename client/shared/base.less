@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,800');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,800');
 
 html, #reactRoot {
 	background  : @white;
@@ -7,11 +7,29 @@ html, #reactRoot {
 }
 
 h1 {
-	color          : black;
+	color          : @steel;
 	letter-spacing : 0.1rem;
-	font-size      : 1.4rem;
+	font-size      : 1rem;
 	text-transform : uppercase;
 	font-weight    : 800;
+
+	@media only screen and (min-width: 480px) {
+    font-size: 1.4rem;
+  }
+}
+
+h2 {
+	color          : @grey;
+	font-size      : 1rem;
+	text-transform : uppercase;
+	font-weight    : 400;
+}
+
+h3 {
+	color          : black;
+	font-size      : 0.8rem;
+	text-transform : uppercase;
+	font-weight    : 300;
 }
 
 button {

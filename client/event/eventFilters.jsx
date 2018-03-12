@@ -12,10 +12,6 @@ const EventFilters = createClass({
 		};
 	},
 
-	componentDidMount() {
-		console.log(this.props.selectedEvent);
-	},
-
 	renderClearButton() {
 		if(_.isEmpty(this.props.filters.eventTypes)) {
 			return;
@@ -26,11 +22,12 @@ const EventFilters = createClass({
 
 	render() {
 		const filters = _.uniqBy(this.props.events, 'type').map((ev) => {
+			const isActive = this.props.filters.eventTypes.includes(ev.type);
 			return <button
 				key={ev.id}
-				className={this.props.filters.eventTypes.includes(ev.type) ? 'active' : ''}
+				className={isActive ? 'active' : ''}
 				onClick={() => this.props.filterEventType(ev.type)}>
-				{ev.type}
+				{isActive ? <i className='fa fa-check' /> : this.props.renderIcon(ev.type)} {ev.type}
 			</button>;
 		});
 

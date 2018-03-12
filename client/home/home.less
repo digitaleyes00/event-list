@@ -1,6 +1,5 @@
 @import "shared/colors.less";
 @import "shared/base.less";
-// @import "shared/grid.less";
 @import "./event/event.less";
 
 .home {
@@ -12,6 +11,10 @@
 		width      : 100%;
 		background : @thalmicBlue;
 	}
+}
+
+.app-title {
+	margin-left: 1rem;
 }
 
 .container {
@@ -29,6 +32,10 @@ nav {
 	overflow      : hidden;
 	margin        : 1rem;
 	padding       : 2rem;
+
+	&.filters {
+		padding: 0.5rem;
+	}
 
 	.fa-spin {
 		font-size: 2rem;
