@@ -1,11 +1,11 @@
-const React       	= require('react');
-const createClass 	= require('create-react-class');
-const _           	= require('lodash');
-const request     	= require('superagent');
+const React       = require('react');
+const createClass = require('create-react-class');
+const _           = require('lodash');
+const request     = require('superagent');
 
-const EventList 		= require('../event/eventList.jsx');
-const EventDetails 	= require('../event/eventDetails.jsx');
-const EventFilters 	= require('../event/eventFilters.jsx');
+const EventList    = require('../event/eventList.jsx');
+const EventDetails = require('../event/eventDetails.jsx');
+const EventFilters = require('../event/eventFilters.jsx');
 
 const Home = createClass({
 	getDefaultProps() {
@@ -18,9 +18,13 @@ const Home = createClass({
 			loaded        : false,
 			selectedEvent : {},
 			filters       : {
-				eventTypes : []
+				eventTypes : [],
 			}
 		};
+	},
+
+	componentDidMount() {
+		this.getEvents();
 	},
 
 	setSelectedEvent(selectedEvent) {
@@ -28,10 +32,11 @@ const Home = createClass({
 	},
 
 	filteredEvents() {
-		if(_.isEmpty(this.state.filters['eventTypes'])) return this.state.events;
+		const { filters, events } = this.state;
+		if(_.isEmpty(filters['eventTypes'])) return events;
 
-		return this.state.events.filter((event) => {
-			return this.state.filters.eventTypes.includes(event.type);
+		return events.filter((event) => {
+			return filters.eventTypes.includes(event.type);
 		});
 	},
 
@@ -57,46 +62,28 @@ const Home = createClass({
 
 	renderIcon(type) {
 		const icons = {
-	    'movie' : function () {
-	      return <i className='fa fa-film' />;
-	    },
-			'birthday' : function () {
-	      return <i className='fa fa-birthday-cake' />;
-	    },
-			'concert' : function () {
-	      return <i className='fa fa-music' />;
-	    },
-			'wedding' : function () {
-	      return <i className='fa fa-heart' />;
-	    },
-			'sports' : function () {
-	      return <i className='fa fa-futbol-o' />;
-	    },
-	    'default' : function () {
-	      return;
-	    }
-  	};
-
-  	return (icons[type] || icons['default'])();
+			movie    : 'film',
+			birthday : 'birthday-cake',
+			concert  : 'music',
+			wedding  : 'heart',
+			sports   : 'futbol-o',
+			default  : 'cube',
+		};
+		return type ? icons[type] : icons['default'];
 	},
-
 	getEvents() {
 		request.get('https://forgetful-elephant.herokuapp.com/events')
-    	.end((err, res) => {
+			.end((err, res) => {
 				this.setState({
-					events : res.body,
-					loaded : true
+					events        : res.body,
+					loaded        : true,
+					selectedEvent : {},
 				});
 			});
 	},
 
-	componentDidMount() {
-		this.getEvents();
-	},
-
 	renderFilters() {
 		if(_.isEmpty(this.state.events)) return;
-
 		return <EventFilters
 			events={this.state.events}
 			filters={this.state.filters}
