@@ -26,7 +26,8 @@
       "react",
       "react-dom",
       "create-react-class",
-      "lodash/core",
+      "lodash",
+      "moment",
       "classnames",
       "superagent"
     ],
